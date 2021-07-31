@@ -1,14 +1,10 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import axios from "axios";
-import { API, API_CREATE } from "../constants/API";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { lightStyles, commonStyles } from "../styles/commonStyles";
 
 export default function CreateScreen({ navigation }) {
 
   const styles = {...lightStyles, ...commonStyles}
-
 
   return (
     <View style={styles.container}>

@@ -1,8 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import { Camera } from 'expo-camera';
-import { FontAwesome } from '@expo/vector-icons';
-import { lightStyles } from '../styles/commonStyles';
+import React from 'react';
+import { View, StyleSheet, Text } from 'react-native';
 
 export default function CameraScreen({ navigation }) {
 
