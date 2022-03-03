@@ -107,6 +107,11 @@ export default function SignInSignUpScreen({ navigation }) {
       <Text style={styles.errorText}>{errorText}</Text>
       <TouchableOpacity
         onPress={() => {
+          LayoutAnimation.configureNext({
+            duration: 200,
+            create: { type: "linear", property: "opacity" },
+            update: { type: "spring", springDamping: 0.6 },
+          });
           setIsLogIn(!isLogIn);
           setErrorText("");
         }}
