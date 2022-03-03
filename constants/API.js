@@ -1,4 +1,4 @@
-export const API = "https://thehappyharis.pythonanywhere.com";
+export const API = "https://your_username.pythonanywhere.com";
 export const API_LOGIN = "/auth";
 export const API_SIGNUP = "/newuser";
 export const API_POSTS = "/posts";
