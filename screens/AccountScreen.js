@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Animated,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { API, API_WHOAMI } from "../constants/API";
@@ -24,6 +25,16 @@ export default function AccountScreen({ navigation }) {
     (state) => state.accountPrefs.profilePicture
   );
   const dispatch = useDispatch();
+
+  const picSize = new Animated.Value(200);
+
+  function changePicSize() {
+    Animated.spring(picSize, {
+      toValue: 300,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+  }
 
   const styles = { ...commonStyles, ...(isDark ? darkStyles : lightStyles) };
   async function getUsername() {
@@ -78,10 +89,12 @@ export default function AccountScreen({ navigation }) {
         Hello {username} !
       </Text>
       {profilePicture && (
-        <Image
-          source={{ uri: profilePicture }}
-          style={{ width: 250, height: 250, borderRadius: 200 }}
-        />
+        <TouchableOpacity onPress={changePicSize}>
+          <Animated.Image
+            source={{ uri: profilePicture }}
+            style={{ width: picSize, height: picSize, borderRadius: 200 }}
+          />
+        </TouchableOpacity>
       )}
       <TouchableOpacity onPress={() => navigation.navigate("Camera")}>
         <Text style={{ marginTop: 10, fontSize: 20, color: "#0000EE" }}>
