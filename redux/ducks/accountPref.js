@@ -8,7 +8,7 @@ const initialState = {
   profilePicture: null,
 };
 
-export function ligtModeAction() {
+export function lightModeAction() {
   return {
     type: LIGHT_MODE,
   };
