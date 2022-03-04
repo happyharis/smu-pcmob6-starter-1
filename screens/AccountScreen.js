@@ -2,17 +2,17 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Image,
   Switch,
   Text,
   TouchableOpacity,
   View,
-  Image,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { API, API_WHOAMI } from "../constants/API";
-import { commonStyles, darkStyles, lightStyles } from "../styles/commonStyles";
-import { lightModeAction, darkModeAction } from "../redux/ducks/accountPref";
+import { changeModeAction } from "../redux/ducks/accountPref";
 import { logOutAction } from "../redux/ducks/blogAuth";
+import { commonStyles, darkStyles, lightStyles } from "../styles/commonStyles";
 
 export default function AccountScreen({ navigation }) {
   const [username, setUsername] = useState(null);
@@ -56,7 +56,7 @@ export default function AccountScreen({ navigation }) {
   }
 
   function switchMode() {
-    dispatch(isDark ? lightModeAction() : darkModeAction());
+    dispatch(changeModeAction());
   }
 
   useEffect(() => {
