@@ -18,6 +18,7 @@ const initialState = {
 };
 
 export default function blogAuthReducer(state = initialState, action) {
+  console.log(state);
   switch (action.type) {
     case LOG_IN:
       return {
