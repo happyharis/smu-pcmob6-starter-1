@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Image,
@@ -9,6 +9,7 @@ import {
   View,
   Animated,
 } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { API, API_WHOAMI } from "../constants/API";
 import { changeModeAction } from "../redux/ducks/accountPref";
@@ -26,14 +27,21 @@ export default function AccountScreen({ navigation }) {
   );
   const dispatch = useDispatch();
 
-  const picSize = new Animated.Value(200);
+  const picSize = new Animated.Value(0);
+
+  const sizeInterpolation = {
+    inputRange: [0, 0.5, 1],
+    outputRange: [200, 300, 200],
+  };
 
   function changePicSize() {
-    Animated.spring(picSize, {
-      toValue: 300,
-      duration: 1000,
-      useNativeDriver: false,
-    }).start();
+    Animated.loop(
+      Animated.timing(picSize, {
+        toValue: 1,
+        duration: 2500,
+        useNativeDriver: false,
+      })
+    ).start();
   }
 
   const styles = { ...commonStyles, ...(isDark ? darkStyles : lightStyles) };
@@ -88,18 +96,30 @@ export default function AccountScreen({ navigation }) {
         {" "}
         Hello {username} !
       </Text>
-      {profilePicture && (
-        <TouchableOpacity onPress={changePicSize}>
-          <Animated.Image
-            source={{ uri: profilePicture }}
-            style={{ width: picSize, height: picSize, borderRadius: 200 }}
-          />
-        </TouchableOpacity>
-      )}
+      <View
+        style={{
+          height: profilePicture == null ? 0 : 320,
+          justifyContent: "center",
+        }}
+      >
+        {profilePicture && (
+          <TouchableWithoutFeedback onPress={changePicSize}>
+            <Animated.Image
+              source={{ uri: profilePicture?.uri }}
+              style={{
+                width: picSize.interpolate(sizeInterpolation),
+                height: picSize.interpolate(sizeInterpolation),
+                borderRadius: 200,
+              }}
+            />
+          </TouchableWithoutFeedback>
+        )}
+      </View>
       <TouchableOpacity onPress={() => navigation.navigate("Camera")}>
         <Text style={{ marginTop: 10, fontSize: 20, color: "#0000EE" }}>
-          {" "}
-          No profile picture. Click to take one.{" "}
+          {profilePicture
+            ? "Delete this photo. Take another one"
+            : "No profile picture. Click to take one."}
         </Text>
       </TouchableOpacity>
       <View
@@ -115,6 +135,12 @@ export default function AccountScreen({ navigation }) {
       </View>
       <TouchableOpacity style={[styles.button]} onPress={signOut}>
         <Text style={styles.buttonText}>Sign Out</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{ ...styles.button, marginTop: 30 }}
+        onPress={() => picSize.stopAnimation()}
+      >
+        <Text style={styles.buttonText}>Stop Animation</Text>
       </TouchableOpacity>
     </View>
   );

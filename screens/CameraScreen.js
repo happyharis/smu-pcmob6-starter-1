@@ -31,7 +31,7 @@ export default function CameraScreen({ navigation }) {
     const photo = await cameraRef.current.takePictureAsync();
     // console.log(photo)
     console.log(photo);
-    dispatch({ ...dispatch(uploadPicAction()), payload: photo.uri });
+    dispatch({ ...dispatch(uploadPicAction()), payload: photo });
     navigation.navigate("Account");
   }
 
